@@ -1,0 +1,5 @@
+[2017-05-07 19:55:58.082 GMT 	ERROR 	ClientCnxn 	Error while calling watcher ] 	
+Exc level 0: System.NullReferenceException: Object reference not set to an instance of an object.
+   at org.apache.zookeeper.ZooKeeper.<>c__DisplayClass14_0.<.ctor>b__0(WatchedEvent event)
+   at org.apache.zookeeper.WatcherDelegate.process(WatchedEvent event)
+   at org.apache.zookeeper.ClientCnxn.<processEvent>d__37.MoveNext()
