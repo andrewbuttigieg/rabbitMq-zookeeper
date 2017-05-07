@@ -8,27 +8,30 @@ namespace RabbitMq.Producer
     {
         static void Main(string[] args)
         {
-            var factory = new ConnectionFactory() { HostName = "localhost", Port = 32773 };
+            var factory = new ConnectionFactory() { HostName = "localhost", Port = 32785 };
 
             while (true)
             {
                 using (var connection = factory.CreateConnection())
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare(queue: "hello",
-                                         durable: false,
+                    channel.QueueDeclare(queue: "process.queue",
+                                         durable: true,
                                          exclusive: false,
                                          autoDelete: false,
                                          arguments: null);
 
-                    string message = "Hello World!";
-                    var body = Encoding.UTF8.GetBytes(message);
+                    for (int i = 0; i < 1000; i++)
+                    {
+                        string message = $"Hello World!! {i}";
+                        var body = Encoding.UTF8.GetBytes(message);
 
-                    channel.BasicPublish(exchange: "",
-                                         routingKey: "hello",
-                                         basicProperties: null,
-                                         body: body);
-                    Console.WriteLine(" [x] Sent {0}", message);
+                        channel.BasicPublish(exchange: "",
+                                             routingKey: "process.queue",
+                                             basicProperties: null,
+                                             body: body);
+                        Console.WriteLine(" [x] Sent {0}", message);
+                    }
                 }
 
                 Console.WriteLine(" Press [enter] to repeat.");
